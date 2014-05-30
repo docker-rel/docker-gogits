@@ -3,11 +3,13 @@ FROM brimstone/ubuntu:14.04
 RUN apt-get update \
     && apt-get install -y curl unzip git openssh-server \
     && apt-get clean \
+    && rm /etc/ssh/ssh_host_* \
     && rm -rf /var/lib/apt/lists
 
 RUN useradd git \
     && mkdir /home/git \
-    && chown git: /home/git
+    && chown git: /home/git \
+    && sed '/pam_loginuid.so/s/^/#/g' -i  /etc/pam.d/*
 
 RUN curl -L https://github.com/$(\
       curl -s https://github.com/gogits/gogs/releases \
