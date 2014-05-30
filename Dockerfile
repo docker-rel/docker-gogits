@@ -1,16 +1,19 @@
 FROM brimstone/ubuntu:14.04
 
+# Install the packages we need, clean up after them and us
 RUN apt-get update \
     && apt-get install -y curl unzip git openssh-server \
     && apt-get clean \
     && rm /etc/ssh/ssh_host_* \
     && rm -rf /var/lib/apt/lists
 
+# Configure a user for git and allow users to login via ssh
 RUN useradd git \
     && mkdir /home/git \
     && chown git: /home/git \
     && sed '/pam_loginuid.so/s/^/#/g' -i  /etc/pam.d/*
 
+# Download and install the latest binary release of gogs
 RUN curl -L https://github.com/$(\
       curl -s https://github.com/gogits/gogs/releases \
       | grep "linux_amd64.zip" \
@@ -26,12 +29,11 @@ RUN curl -L https://github.com/$(\
     && mkdir gogs/log \
     && chown git: gogs/log
 
+# Add our deploy script
+ADD deploy /deploy
 
-EXPOSE 3000
+# Expose our port
+EXPOSE 22 3000
 
-USER git
-ENV HOME /home/git
-ENV USER git
-WORKDIR /gogs
-ENTRYPOINT ["./gogs", "web"]
-CMD []
+# Set our command
+CMD "/deploy"

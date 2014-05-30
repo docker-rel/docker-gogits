@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Enable error checking
+set -euo pipefail
+
+# regen ssh host keys if they don't exist
+if [ ! -e /etc/ssh/ssh_host_* ]; then
+	dpkg-reconfigure openssh-server
+fi
+# Start the ssh server
+/usr/sbin/sshd -D &
+
+# Set our environment variables
+export USER=git
+export HOME=/home/git
+
+echo "Starting for $USER with HOME: $HOME"
+# Change to our working directory
+cd /gogs
+# Execute gogs web server
+exec su --preserve-environment $USER -c './gogs web'
