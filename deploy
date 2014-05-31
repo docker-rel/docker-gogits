@@ -14,6 +14,8 @@ fi
 export USER=git
 export HOME=/home/git
 
+chmod -R $USER: $HOME
+
 echo "Starting for $USER with HOME: $HOME"
 # Change to our working directory
 cd /gogs
