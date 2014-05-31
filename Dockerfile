@@ -23,11 +23,8 @@ RUN curl -L https://github.com/$(\
     && unzip gogits.zip \
     && rm gogits.zip \
     && mkdir gogs/data \
-    && chown git: gogs/data \
     && mkdir gogs/custom \
-    && chown git: gogs/custom \
-    && mkdir gogs/log \
-    && chown git: gogs/log
+    && mkdir gogs/log
 
 # Add our deploy script
 ADD deploy /deploy

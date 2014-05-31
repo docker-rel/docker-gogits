@@ -15,6 +15,9 @@ export USER=git
 export HOME=/home/git
 
 chown -R $USER: $HOME
+chown -R $USER: /gogs/log
+chown -R $USER: /gogs/custom
+chown -R $USER: /gogs/data
 
 echo "Starting for $USER with HOME: $HOME"
 # Change to our working directory
