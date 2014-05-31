@@ -37,3 +37,6 @@ EXPOSE 22 3000
 
 # Set our command
 CMD "/deploy"
+
+# Expose our volume incase something else wants to use it
+VOLUME ["/home/git", "/gogs/custom", "/gogs/data"]
