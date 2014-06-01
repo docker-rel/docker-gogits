@@ -13,6 +13,11 @@ RUN useradd git \
     && chown git: /home/git \
     && sed '/pam_loginuid.so/s/^/#/g' -i  /etc/pam.d/*
 
+# Fix UTF-8
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen; \
+	echo "LANG=\"en_US.UTF-8\"" > /etc/default/locale; \
+	locale-gen en_US.UTF-8
+
 # Download and install the latest binary release of gogs
 RUN curl -L https://github.com/$(\
       curl -s https://github.com/gogits/gogs/releases \
