@@ -19,6 +19,11 @@ chown -R $USER: /gogs/log
 chown -R $USER: /gogs/custom
 chown -R $USER: /gogs/data
 
+touch /gogs/serv.log
+chown $USER /gogs/serv.log
+touch /gogs/update.log
+chown $USER /gogs/update.log
+
 echo "Starting for $USER with HOME: $HOME"
 # Change to our working directory
 cd /gogs
