@@ -22,5 +22,15 @@ chown -R $USER: /gogs/data
 echo "Starting for $USER with HOME: $HOME"
 # Change to our working directory
 cd /gogs
+# Fixup for 0.4.0
+if [ ! -d conf ]; then
+	cd /tmp
+	git clone https://github.com/gogits/gogs.git
+	cd gogs
+	git checkout 2657f88d9af9420329c49fab20bd1c7a5febc071
+	cp -r conf /gogs/
+	cd /gogs
+	rm -rf /tmp/gogs
+fi
 # Execute gogs web server
 exec su --preserve-environment $USER -c './gogs web'
